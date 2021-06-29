@@ -1,0 +1,35 @@
+{
+    "manifestVersion": 1,
+    "id": "sfdx-orgdev-build-deploy",
+    "publisher": "TiagoNascimento",
+    "version": "1.0.0",
+    "name": "SFDX Org Development Model - Build & Deploy",
+    "description": "An Azure Devops extension to perform some tricks with SFDX",
+    "public": false,
+    "categories": ["Azure Pipelines"],
+    "targets": [
+        {
+            "id": "Microsoft.VisualStudio.Services"
+        }
+    ],
+    "icons": {
+        "default": "images/extension-icon.png"        
+    },
+    "files": [
+        {
+            "path": "buildDeployTask"
+        }
+    ],
+    "contributions": [
+        {
+            "id": "custom-build-release-task",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "buildDeployTask"
+            }
+        }
+    ]
+}

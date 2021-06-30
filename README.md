@@ -1,6 +1,6 @@
 # SFDX Org Development Model Azure Devops Task - Build & Deploy
 
-This repository implements a Azure Devops Task that's is a variation of the [Bitbucket Pipelines examples with org development](https://github.com/forcedotcom/sfdx-bitbucket-org/).
+This repository implements a Azure Devops Task that's is a variation of the [Bitbucket Pipelines examples with org development](https://github.com/forcedotcom/sfdx-bitbucket-org/). This is also a Azure Devops version of the [SFDX Org Development Model Github Action - Build & Deploy](https://github.com/tiagonnascimento/sfdx-orgdev-build-deploy)
 
 This action is usefull to deploy to non-scratch orgs (sandbox or production) with Azure Pipelines.
 
@@ -28,7 +28,80 @@ The task, once executed will run the following steps:
 You can execute the action as per the following sample:
 
 ```yaml
+# List the branches that the pipeline will execute
+trigger:
+  branches:
+    include:
+    - main
+    - develop
+    - feature/*
+    - release/*
 
+# Execute upon opening pull requests
+pr:
+  branches:
+    include:
+      - '*'
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  isFeature: $[startsWith(variables['Build.SourceBranch'], 'refs/heads/feature')]
+  isPR2Develop: $[eq(variables['System.PullRequest.TargetBranch'], 'refs/heads/develop')]
+  isDevelop: $[eq(variables['Build.SourceBranch'], 'refs/heads/develop')]
+  isMain: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
+
+stages:
+- stage: BU01
+  condition: eq(variables.isFeature, true)
+  jobs:
+  - job: BU01_BUILD_DEPLOY
+    steps:
+    - task: sfdx-orgdev-build-deploy@1
+      displayName: 'BU01 - Build & Deploy'
+      inputs:
+        type: 'sandbox'
+        privateKeyPath: 'cicd/server.key.enc'
+        decryptionKey: $(NONPROD_DECRYPTION_KEY)
+        decryptionIV: $(NONPROD_DECRYPTION_IV)
+        clientID: $(BU01_CLIENTID)
+        username: $(BU01_USERNAME)
+        manifestFiles: 'manifest/package.xml'
+
+- stage: QA01_VALIDATE
+  condition: eq(variables.isPR2Develop, true)
+  jobs:
+  - job: QA01_BUILD_VALIDATE_DEPLOY
+    steps:
+    - task: sfdx-orgdev-build-deploy@1
+      displayName: 'QA01 - Build & Deploy'
+      inputs:
+        type: 'sandbox'
+        privateKeyPath: 'cicd/server.key.enc'
+        decryptionKey: $(NONPROD_DECRYPTION_KEY)
+        decryptionIV: $(NONPROD_DECRYPTION_IV)
+        clientID: $(QA01_CLIENTID)
+        username: $(QA01_USERNAME)
+        checkonly: true
+        manifestFiles: 'manifest/package.xml'
+
+- stage: QA01
+  condition: eq(variables.isDevelop, true)
+  jobs:
+  - job: QA01_BUILD_DEPLOY
+    steps:
+    - task: sfdx-orgdev-build-deploy@1
+      displayName: 'QA01 - CHECK - Build & Validate the Deploy'
+      inputs:
+        type: 'sandbox'
+        privateKeyPath: 'cicd/server.key.enc'
+        decryptionKey: '$(NONPROD_DECRYPTION_KEY)'
+        decryptionIV: '$(NONPROD_DECRYPTION_IV)'
+        clientID: '$(QA01_CLIENTID)'
+        username: '$(QA01_USERNAME)'
+        checkonly: false
+        manifestFiles: 'manifest/package.xml'
 ```
 
 ### Inputs:

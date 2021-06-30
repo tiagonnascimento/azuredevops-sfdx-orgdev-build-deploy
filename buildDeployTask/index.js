@@ -9,16 +9,19 @@ try {
     sfdx.install();
     
     //Load private key params
+    let key = {};
     key.privateKeyPath = tl.getInput('privateKeyPath');
     key.decryptionKey = tl.getInput('decryptionKey');
     key.decryptionIV = tl.getInput('decryptionIV');
   
     //Load destionation params
+    let destionation = {};
     destination.type = tl.getInput('type');
     destination.clientID = tl.getInput('clientID');
     destination.username = tl.getInput('username');
     
     //Load deploy params
+    let deploy = {};
     deploy.manifestFiles = tl.getInput('manifestFiles');
     deploy.destructivePath = tl.getInput('destructivePath');
     deploy.anonymousApex = tl.getInput('anonymousApex');

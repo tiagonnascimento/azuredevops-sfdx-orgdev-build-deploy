@@ -16,9 +16,11 @@ The task, once executed will run the following steps:
 
 1) If you intent to use it, please go through the Readme of the [Bitbucket Pipelines examples with org development](https://github.com/forcedotcom/sfdx-bitbucket-org/) and make sure you understand the concept and execute the *Getting Started* (of the referred repo) steps #4, 5, 6 and 10
 
-2) Also you will need to add the following Secrets on your Azure repository, that will be later used on your Azure Workflow:
+2) Fork this repo and privatly publish your own version of this extension (as by now it's not publicly available on Azure Marketplace) as demonstrated in this link: https://docs.microsoft.com/en-us/azure/devops/extend/develop/add-build-task?view=azure-devops&viewFallbackFrom=vsts
 
-- CLIENT_ID: holds the client_id of the connected app that you created on step #4 of the referred repo
+3) Create a Azure Pipeline as per the example down below. Also you will need to add the following variables on your Azure pipelines:
+
+- CLIENTID: holds the client_id of the connected app that you created on step #4 of the referred repo
 - USERNAME: holds the username that will be used to connect to the target org/sandbox
 - DECRYPTION_KEY: holds the KEY value you generated on step #6 of the referred repo - will be used to decrypt the certificate
 - DECRYPTION_IV: holds the IV value you generated on step #6 of the referred repo - will be used to decrypt the certificate

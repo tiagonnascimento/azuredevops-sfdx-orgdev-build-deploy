@@ -10,23 +10,25 @@ try {
     
     //Load private key params
     let key = {};
-    key.privateKeyPath = tl.getInput('privateKeyPath');
-    key.decryptionKey = tl.getInput('decryptionKey');
-    key.decryptionIV = tl.getInput('decryptionIV');
+    key.privateKeyPath = tl.getInput('privateKeyPath', true);
+    key.decryptionKey = tl.getInput('decryptionKey', true);
+    key.decryptionIV = tl.getInput('decryptionIV', true);
   
     //Load destionation params
-    let destionation = {};
-    destination.type = tl.getInput('type');
-    destination.clientID = tl.getInput('clientID');
-    destination.username = tl.getInput('username');
+    let destination = {};
+    destination.type = tl.getInput('type', true);
+    destination.clientID = tl.getInput('clientID', true);
+    destination.username = tl.getInput('username', true);
     
     //Load deploy params
     let deploy = {};
-    deploy.manifestFiles = tl.getInput('manifestFiles');
+    deploy.manifestFiles = tl.getInput('manifestFiles', true);
     deploy.destructivePath = tl.getInput('destructivePath');
     deploy.anonymousApex = tl.getInput('anonymousApex');
-    deploy.checkonly = tl.getInput('checkonly');
+    deploy.checkonly = tl.getBoolInput('checkonly');
     deploy.deployWaitTime = tl.getInput('deployWaitTime'); 
+
+    console.log('Deloy parameters: ' + JSON.stringify(deploy));
 
     //auth to Org
     sfdx.auth(key, destination);
@@ -38,7 +40,7 @@ try {
     sfdx.destructiveDeploy(deploy);
   
     //Executes data factory script
-    sfdx.dataFactory(deploy);
+    sfdx.anonymousApex(deploy);
 
   } catch (error) {
       console.error(error.message);

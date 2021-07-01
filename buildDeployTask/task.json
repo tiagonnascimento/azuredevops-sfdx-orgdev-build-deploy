@@ -4,13 +4,13 @@
     "name": "sfdx-orgdev-build-deploy",
     "friendlyName": "SFDX Org Development Model - Build & Deploy",
     "description": "An Azure Devops extension to perform some tricks with SFDX. Once executed will download and install the latest version of Salesforce CLI, authenticate in a target destionation using an JWT Oauth grant and execute one or more deploys, including destructive changes and possibly anonymous apex execution.",
-    "helpMarkDown": "",
+    "helpMarkDown": "You can find help here: https://github.com/tiagonnascimento/azuredevops-sfdx-orgdev-build-deploy",
     "category": "Utility",
     "author": "Tiago Nascimento",
     "version": {
         "Major": 1,
         "Minor": 0,
-        "Patch": 0
+        "Patch": 7
     },
     "instanceNameFormat": "Echo $(username)",
     "inputs": [

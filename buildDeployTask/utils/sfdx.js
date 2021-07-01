@@ -38,8 +38,8 @@ let deploy = function (deploy){
 };
 
 let destructiveDeploy = function (deploy){
-    console.log("=== destructiveDeploy ===");
-    if (deploy.destructivePath !== null && deploy.destructivePath !== '') {
+    if (deploy.destructivePath != null && deploy.destructiveDeploy != undefined && deploy.destructivePath !== '') {
+        console.log("=== destructiveDeploy ===");
         console.log('=== Applying destructive changes ===')
         var argsDestructive = ['force:mdapi:deploy', '-d', deploy.destructivePath, '-u', 'sfdc', '--wait', deploy.deployWaitTime, '-g', '--json'];
         if (deploy.checkonly) {
@@ -50,8 +50,8 @@ let destructiveDeploy = function (deploy){
 };
 
 let anonymousApex = function (deploy){
-    console.log("=== Anonymous Apex ===");
-    if (deploy.anonymousApex  && !deploy.checkonly) {
+    if (deploy.anonymousApex != null && deploy.anonymousApex != undefined && deploy.anonymousApex != '' && !deploy.checkonly) {
+        console.log("=== Anonymous Apex ===");
         console.log('Executing Anonymous Apex');
         cmd.run('sfdx', ['force:apex:execute', '-f', deploy.anonymousApex, '-u', 'sfdc']);
     }

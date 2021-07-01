@@ -30,16 +30,14 @@ The task, once executed will run the following steps:
 You can execute the action as per the following sample:
 
 ```yaml
-# List the branches that the pipeline will execute
+# List of branches listenings to pushes
 trigger:
   branches:
     include:
-    - main
     - develop
     - feature/*
-    - release/*
 
-# Execute upon opening pull requests
+# Executing pipeline on pull requests
 pr:
   branches:
     include:
@@ -48,12 +46,14 @@ pr:
 pool:
   vmImage: ubuntu-latest
 
+# Variables being defined before, only to facilitate reading of the yaml
 variables:
   isFeature: $[startsWith(variables['Build.SourceBranch'], 'refs/heads/feature')]
   isPR2Develop: $[eq(variables['System.PullRequest.TargetBranch'], 'refs/heads/develop')]
   isDevelop: $[eq(variables['Build.SourceBranch'], 'refs/heads/develop')]
   isMain: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
 
+# each stage has a condition - it will be skipped if the condition is not achieved. The conditions were already calculated before.
 stages:
 - stage: BU01
   condition: eq(variables.isFeature, true)
@@ -63,13 +63,15 @@ stages:
     - task: sfdx-orgdev-build-deploy@1
       displayName: 'BU01 - Build & Deploy'
       inputs:
-        type: 'sandbox'
+        type: 'production'
         privateKeyPath: 'cicd/server.key.enc'
         decryptionKey: $(NONPROD_DECRYPTION_KEY)
         decryptionIV: $(NONPROD_DECRYPTION_IV)
         clientID: $(BU01_CLIENTID)
         username: $(BU01_USERNAME)
-        manifestFiles: 'manifest/package.xml'
+        manifestFiles: 'manifest/package.xml,manifest/package2.xml'
+        destructivePath: 'destructive/'
+        anonymousApex: 'scripts/apex/hello.apex'
 
 - stage: QA01_VALIDATE
   condition: eq(variables.isPR2Develop, true)
@@ -79,14 +81,16 @@ stages:
     - task: sfdx-orgdev-build-deploy@1
       displayName: 'QA01 - Build & Deploy'
       inputs:
-        type: 'sandbox'
+        type: 'production'
         privateKeyPath: 'cicd/server.key.enc'
         decryptionKey: $(NONPROD_DECRYPTION_KEY)
         decryptionIV: $(NONPROD_DECRYPTION_IV)
         clientID: $(QA01_CLIENTID)
         username: $(QA01_USERNAME)
         checkonly: true
-        manifestFiles: 'manifest/package.xml'
+        manifestFiles: 'manifest/package.xml,manifest/package2.xml'
+        destructivePath: 'destructive/'
+        anonymousApex: 'scripts/apex/hello.apex'
 
 - stage: QA01
   condition: eq(variables.isDevelop, true)
@@ -96,14 +100,16 @@ stages:
     - task: sfdx-orgdev-build-deploy@1
       displayName: 'QA01 - CHECK - Build & Validate the Deploy'
       inputs:
-        type: 'sandbox'
+        type: 'production'
         privateKeyPath: 'cicd/server.key.enc'
         decryptionKey: '$(NONPROD_DECRYPTION_KEY)'
         decryptionIV: '$(NONPROD_DECRYPTION_IV)'
         clientID: '$(QA01_CLIENTID)'
         username: '$(QA01_USERNAME)'
         checkonly: false
-        manifestFiles: 'manifest/package.xml'
+        manifestFiles: 'manifest/package.xml,manifest/package2.xml'
+        destructivePath: 'destructive/'
+        anonymousApex: 'scripts/apex/hello.apex'
 ```
 
 ### Inputs:

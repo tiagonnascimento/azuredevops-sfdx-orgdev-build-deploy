@@ -1,6 +1,6 @@
 const cmd = require('./cmd.js');
 
-let install = function(){
+let install = async () => {
     console.log('=== Downloading and installing SFDX cli ===');
     cmd.run('wget', ['https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz']);
     cmd.run('mkdir', ['-p', 'sfdx-cli']);
@@ -9,18 +9,18 @@ let install = function(){
     console.log('=== SFDX cli installed ===');
 };
 
-let auth = function (key, destination){
+let auth = async (key, destination) => {
     console.log("=== login ===");
-    console.log('=== Decrypting private key');
+    console.log('=== Decrypting private key ===');
     cmd.run('openssl', ['enc', '-nosalt', '-aes-256-cbc', '-d', '-in', key.privateKeyPath, '-out', 'server.key', '-base64', '-K', key.decryptionKey, '-iv', key.decryptionIV]);
 
-    console.log('==== Authenticating in the target org');
+    console.log('==== Authenticating in the target org ===');
     const instanceurl = destination.type === 'sandbox' ? 'https://test.salesforce.com' : 'https://login.salesforce.com';
     console.log('Instance URL: ' + instanceurl);
     cmd.run('sfdx', ['force:auth:jwt:grant', '--instanceurl', instanceurl, '--clientid', destination.clientID, '--jwtkeyfile', 'server.key', '--username', destination.username, '--setalias', 'sfdc']);
 };
 
-let deploy = function (deploy){
+let deploy = async (deploy) => {
     console.log("=== deploy ===");
 
     let manifestFilesArray = deploy.manifestFiles.split(",");
@@ -37,8 +37,8 @@ let deploy = function (deploy){
     }
 };
 
-let destructiveDeploy = function (deploy){
-    if (deploy.destructivePath != null && deploy.destructivePath != undefined && deploy.destructivePath !== '') {
+let destructiveDeploy = async (deploy) => {
+    if (deploy.destructivePath != null && deploy.destructivePath != undefined && deploy.destructivePath != '') {
         console.log("=== destructiveDeploy ===");
         console.log('=== Applying destructive changes ===')
         var argsDestructive = ['force:mdapi:deploy', '-d', deploy.destructivePath, '-u', 'sfdc', '--wait', deploy.deployWaitTime, '-g', '--json'];
@@ -49,7 +49,7 @@ let destructiveDeploy = function (deploy){
     }
 };
 
-let anonymousApex = function (deploy){
+let anonymousApex = async (deploy) => {
     if (deploy.anonymousApex != null && deploy.anonymousApex != undefined && deploy.anonymousApex != '' && !deploy.checkonly) {
         console.log("=== Anonymous Apex ===");
         console.log('Executing Anonymous Apex');

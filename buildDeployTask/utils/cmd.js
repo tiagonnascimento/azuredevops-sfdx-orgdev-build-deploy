@@ -11,17 +11,25 @@ module.exports.run = function(command, args) {
     if (spawn.stdout) {
         
         console.log("Command executed: " + command)
-        console.log("With the following args: " + args.toString());
-        console.log("Having the following return: " + spawn.stdout.toString());
+        if (args != null) {
+            console.log("With the following args: " + args.toString());
+        } else {
+            console.log("With no args");
+        }
+        if (spawn.stdout != null) {
+            console.log("Having the following return: " + spawn.stdout.toString());
+        } else {
+            console.log("With no return");
+        }
     }
 
-    if (spawn.error !== undefined || spawn.status !== 0) {
+    if (spawn.error != undefined || spawn.status != 0) {
         var errorMessage = '';
-        if (spawn.error !== undefined) {
+        if (spawn.error != undefined) {
             errorMessage = spawn.error;
         } 
         
-        if (spawn.stderr !== undefined) {
+        if (spawn.stderr != undefined && spawn.stderr != null) {
             errorMessage += " " + spawn.stderr.toString();
         }
         console.error(errorMessage);

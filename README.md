@@ -127,7 +127,6 @@ stages:
 | `destructivePath`     | _optional_  | Path on the repo where the destructive changes directory is - if not informed, it's not executed |
 | `anonymousApex`       | _optional_  | Path on the repo where an APEX script used as a data factory / automation is stored. if not informed, it's not executed |
 
-
 # Note for destructives changes.
 
 The `destructive_path` input is a path folder, with two files inside. For example if we have the following folder structure

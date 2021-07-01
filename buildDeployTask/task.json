@@ -101,6 +101,14 @@
             "defaultValue": "",
             "required": false,
             "helpMarkDown": "Anonymous Apex to be executed after deployment / destructive changes"
+        },
+        {
+            "name": "artifactPath",
+            "type": "string",
+            "label": "Artifact Path",
+            "defaultValue": "",
+            "required": false,
+            "helpMarkDown": "To be used on release pipelines - path where the repo can be found"
         }
     ],
     "execution": {

@@ -38,7 +38,7 @@ let deploy = function (deploy){
 };
 
 let destructiveDeploy = function (deploy){
-    if (deploy.destructivePath != null && deploy.destructiveDeploy != undefined && deploy.destructivePath !== '') {
+    if (deploy.destructivePath != null && deploy.destructivePath != undefined && deploy.destructivePath !== '') {
         console.log("=== destructiveDeploy ===");
         console.log('=== Applying destructive changes ===')
         var argsDestructive = ['force:mdapi:deploy', '-d', deploy.destructivePath, '-u', 'sfdc', '--wait', deploy.deployWaitTime, '-g', '--json'];

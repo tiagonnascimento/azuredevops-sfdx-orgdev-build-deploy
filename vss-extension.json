@@ -2,7 +2,7 @@
     "manifestVersion": 1,
     "id": "sfdx-orgdev-build-deploy",
     "publisher": "TiagoNascimento",
-    "version": "1.0.7",
+    "version": "1.0.9",
     "name": "SFDX Org Development Model - Build & Deploy",
     "description": "An Azure Devops extension to perform some tricks with SFDX",
     "public": false,

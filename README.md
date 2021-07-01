@@ -48,10 +48,15 @@ pool:
 
 # Variables being defined before, only to facilitate reading of the yaml
 variables:
-  isFeature: $[startsWith(variables['Build.SourceBranch'], 'refs/heads/feature')]
-  isPR2Develop: $[eq(variables['System.PullRequest.TargetBranch'], 'refs/heads/develop')]
-  isDevelop: $[eq(variables['Build.SourceBranch'], 'refs/heads/develop')]
-  isMain: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
+- group: 'PIPELINE_VARS'
+- name: isFeature
+  value: $[startsWith(variables['Build.SourceBranch'], 'refs/heads/feature')]
+- name: isPR2Develop
+  value: $[eq(variables['System.PullRequest.TargetBranch'], 'refs/heads/develop')]
+- name: isDevelop
+  value: $[eq(variables['Build.SourceBranch'], 'refs/heads/develop')]
+- name: isMain
+  value: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
 
 # each stage has a condition - it will be skipped if the condition is not achieved. The conditions were already calculated before.
 stages:

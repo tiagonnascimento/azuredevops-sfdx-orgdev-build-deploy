@@ -5,12 +5,12 @@ This repository implements a Azure DevOps Task that's is a variation of the [Bit
 This action is usefull to deploy to non-scratch orgs (sandbox or production) with Azure Pipelines.
 
 The task, once executed will run the following steps:
-- Download and install the last version of Salesforce CLI
-- Decrypt the private key that should be inside the repo
-- Auth in the target sandbox/org using the decrypted key and a JWT grant
-- Deploy or Check one or more packages with test level being executed as per the specified input parm
-- Deploy or Check destructive changes (optional)
-- Execute Apex anonymous script (optional)
+- Download and install the last version of Salesforce CLI;
+- Decrypt the private key that has to be stored inside the repo;
+- Auth in the target sandbox/org using the decrypted key and a JWT grant;
+- Deploy (or validate the deployment)  one or more packages based on manifest files you provided as input parameter;
+- Deploy (or validate) destructive changes (optional)
+- Execute an anonymous APEX script provided (optional)
 
 ## Getting Started
 

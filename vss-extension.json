@@ -5,7 +5,7 @@
     "version": "1.0.0",
     "name": "SFDX Org Development Model - Build & Deploy",
     "description": "An Azure Devops extension to perform some tricks with SFDX",
-    "public": false,
+    "public": true,
     "categories": ["Azure Pipelines"],
     "targets": [
         {
@@ -31,5 +31,10 @@
                 "name": "buildDeployTask"
             }
         }
-    ]
+    ],
+    "content": {
+        "details": {
+            "path": "overview.md"
+        }
+    }
 }

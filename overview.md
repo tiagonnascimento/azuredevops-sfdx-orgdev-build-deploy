@@ -1,6 +1,6 @@
 # SFDX Org Development Model Azure Devops Task - Build & Deploy
 
-This repository implements a Azure DevOps Task that's is a variation of the [Bitbucket Pipelines examples with org development](https://github.com/forcedotcom/sfdx-bitbucket-org/). This is also a Azure DevOps version of the [SFDX Org Development Model Github Action - Build & Deploy](https://github.com/tiagonnascimento/sfdx-orgdev-build-deploy)
+This extension is a Azure DevOps Custom Task that's is a variation of the [Bitbucket Pipelines examples with org development](https://github.com/forcedotcom/sfdx-bitbucket-org/). This is also a Azure DevOps version of the [SFDX Org Development Model Github Action - Build & Deploy](https://github.com/tiagonnascimento/sfdx-orgdev-build-deploy)
 
 This action is usefull to deploy to non-scratch orgs (sandbox or production) with Azure Pipelines.
 
@@ -158,11 +158,3 @@ The `destructive_path` will be `releases/01_releases/destructive`.
 ### Use on a Azure Release
 
 You can use this task on a Azure Releae as well, but to do that, you will need to first copy all files from the Artifact directory to the execution folder. You can achieve that using a builtin Task `Copy Files to:` using as the Source Folder the Artifact directory and the Target Folder simply: `.` 
-
-## Contributing to the Repository
-
-If you find any issues or opportunities for improving this repository, fix them! Feel free to contribute to this project by [forking](http://help.github.com/fork-a-repo/) this repository and making changes to the content. Once you've made your changes, share them back with the community by sending a pull request. See [How to send pull requests](http://help.github.com/send-pull-requests/) for more information about contributing to GitHub projects.
-
-## Reporting Issues
-
-If you find any issues with this demo that you can't fix, feel free to report them in the [issues](https://github.com/tiagonnascimento/azuredevops-sfdx-orgdev-build-deploy/issues) section of this repository.

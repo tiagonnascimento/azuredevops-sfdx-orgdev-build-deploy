@@ -9,8 +9,8 @@
     "author": "Tiago Nascimento",
     "version": {
         "Major": 1,
-        "Minor": 0,
-        "Patch": 0
+        "Minor": 1,
+        "Patch": 7
     },
     "instanceNameFormat": "Echo $(username)",
     "inputs": [
@@ -87,12 +87,20 @@
             "helpMarkDown": "Number of minutes for wait time for deployment to finish. Default is 10"
         },
         {
-            "name": "destructivePath",
+            "name": "preDestructivePath",
             "type": "string",
             "label": "Destructive Path",
             "defaultValue": "",
             "required": false,
-            "helpMarkDown": "Path for destructive changes directory"
+            "helpMarkDown": "Path for the pre destructive changes manifest file"
+        },
+        {
+            "name": "postDestructivePath",
+            "type": "string",
+            "label": "Destructive Path",
+            "defaultValue": "",
+            "required": false,
+            "helpMarkDown": "Path for post destructive changes manifest file"
         },
         {
             "name": "anonymousApex",

@@ -75,7 +75,8 @@ stages:
         clientID: $(BU01_CLIENTID)
         username: $(BU01_USERNAME)
         manifestFiles: 'manifest/package.xml,manifest/package2.xml'
-        destructivePath: 'destructive/'
+        preDestructivePath: 'destructive/preDestructiveChanges.xml'
+        postDestructivePath: 'destructive/postDestructiveChanges.xml'
         anonymousApex: 'scripts/apex/hello.apex'
 
 - stage: QA01_VALIDATE
@@ -94,7 +95,8 @@ stages:
         username: $(QA01_USERNAME)
         checkonly: true
         manifestFiles: 'manifest/package.xml,manifest/package2.xml'
-        destructivePath: 'destructive/'
+        preDestructivePath: 'destructive/preDestructiveChanges.xml'
+        postDestructivePath: 'destructive/postDestructiveChanges.xml'
         anonymousApex: 'scripts/apex/hello.apex'
 
 - stage: QA01
@@ -113,7 +115,8 @@ stages:
         username: '$(QA01_USERNAME)'
         checkonly: false
         manifestFiles: 'manifest/package.xml,manifest/package2.xml'
-        destructivePath: 'destructive/'
+        preDestructivePath: 'destructive/preDestructiveChanges.xml'
+        postDestructivePath: 'destructive/postDestructiveChanges.xml'
         anonymousApex: 'scripts/apex/hello.apex'
 ```
 
@@ -129,7 +132,8 @@ stages:
 | `checkonly`           | _required_  | Boolean value to indicate whether this action should execute the deploy or only check it, default is false, but if true it will add -c parameter on the force:mdapi:deploy commands |
 | `manifestFiles`       | _required_  | Path on the current repository to one or more package.xml that represents the packages to be deployed. Based on this files the metadata package will be created and deployed in the order specified. Ex:  `manifest/package-01.xml,manifest/package-02.xml,manifest/package-03.xml` |
 | `deployWaitTime`      | _optional_  | Wait time for deployment to finish in minutes. Default is `10` |
-| `destructivePath`     | _optional_  | Path on the repo where the destructive changes directory is - if not informed, it's not executed |
+| `preDestructivePath`  | _optional_  | Path on the repo where the destructive changes directory is to be applied before build - if not informed, it's not executed |
+| `postDestructivePath` | _optional_  | Path on the repo where the destructive changes directory is to be applied after build - if not informed, it's not executed |
 | `anonymousApex`       | _optional_  | Path on the repo where an APEX script used as a data factory / automation is stored. if not informed, it's not executed |
 
 ### Note for destructives changes.
@@ -153,7 +157,7 @@ The `destructive_path` input is a path folder, with two files inside. For exampl
   |-- sfdx-project.json 
 ```  
 
-The `destructive_path` will be `releases/01_releases/destructive`.
+The `destructive_path` will be `releases/01_releases/destructive/destructiveChanges.xml`.
 
 ### Use on a Azure Release
 

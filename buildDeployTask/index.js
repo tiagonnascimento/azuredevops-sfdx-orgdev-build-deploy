@@ -18,7 +18,8 @@ destination.username = tl.getInput('username', true);
 //Load deploy params
 let deploy = {};
 deploy.manifestFiles = tl.getInput('manifestFiles', true);
-deploy.destructivePath = tl.getInput('destructivePath');
+deploy.preDestructivePath = tl.getInput('preDestructivePath');
+deploy.postDestructivePath = tl.getInput('postDestructivePath');
 deploy.anonymousApex = tl.getInput('anonymousApex');
 deploy.checkonly = tl.getBoolInput('checkonly');
 deploy.deployWaitTime = tl.getInput('deployWaitTime'); 
@@ -35,9 +36,6 @@ async function execute() {
   
     //Deply/Checkonly to Org
     await sfdx.deploy(deploy);
-    
-    //Destructive deploy
-    await sfdx.destructiveDeploy(deploy);
   
     //Executes data factory script
     await sfdx.anonymousApex(deploy);

@@ -1,12 +1,10 @@
 const cmd = require('./cmd.js');
 
 let install = async () => {
-    console.log('=== Downloading and installing SFDX cli ===');
-    cmd.run('wget', ['https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz']);
-    cmd.run('mkdir', ['-p', 'sfdx-cli']);
-    cmd.run('tar', ['xJf', 'sfdx-linux-amd64.tar.xz', '-C', 'sfdx-cli', '--strip-components', '1']);
-    cmd.run('./sfdx-cli/install', []);
+    console.log('=== Installing SFDX cli ===');
+    cmd.run('sudo', ['npm', 'install', '--global', 'sfdx-cli@latest']);
     console.log('=== SFDX cli installed ===');
+    cmd.run('sfdx',['version']);
 };
 
 let auth = async (key, destination) => {
@@ -33,19 +31,21 @@ let deploy = async (deploy) => {
             argsDeploy.push('--checkonly');
         }
 
-        cmd.run('sfdx', argsDeploy);
-    }
-};
-
-let destructiveDeploy = async (deploy) => {
-    if (deploy.destructivePath != null && deploy.destructivePath != undefined && deploy.destructivePath != '') {
-        console.log("=== destructiveDeploy ===");
-        console.log('=== Applying destructive changes ===')
-        var argsDestructive = ['force:mdapi:deploy', '-d', deploy.destructivePath, '-u', 'sfdc', '--wait', deploy.deployWaitTime, '-g', '--json'];
-        if (deploy.checkonly) {
-            argsDestructive.push('--checkonly');
+        if (deploy.preDestructivePath && i == 0) {
+            console.log("===== adding pre destructive changes ====");
+            argsDeploy.push('--predestructivechanges');
+            argsDeploy.push(deploy.preDestructivePath);
+            argsDeploy.push('-g');
         }
-        cmd.run('sfdx', argsDestructive);
+
+        if (deploy.postDestructivePath && i == manifestFilesArray.length - 1) {
+            console.log("===== adding post destructive changes ====");
+            argsDeploy.push('--postdestructivechanges');
+            argsDeploy.push(deploy.postDestructivePath);
+            argsDeploy.push('-g');
+        }
+
+        cmd.run('sfdx', argsDeploy);
     }
 };
 
@@ -60,5 +60,4 @@ let anonymousApex = async (deploy) => {
 module.exports.install = install;
 module.exports.auth = auth;
 module.exports.deploy = deploy;
-module.exports.destructiveDeploy = destructiveDeploy;
 module.exports.anonymousApex = anonymousApex;

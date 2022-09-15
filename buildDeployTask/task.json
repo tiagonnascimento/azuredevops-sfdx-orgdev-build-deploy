@@ -79,6 +79,14 @@
             "helpMarkDown": "Comma separated list of manifest files (package.xmls) to be used on deployments"
         },
         {
+            "name": "deploy_testlevel",
+            "type": "string",
+            "label": "test runs",
+            "defaultValue": "RunLocalTests",
+            "required": true,
+            "helpMarkDown": "Specifies which tests are run as part of a deployment. Valid values are: NoTestRun, RunSpecifiedTests, RunLocalTests, RunAllTestsInOrg"
+        },
+        {
             "name": "deployWaitTime",
             "type": "string",
             "label": "Deploy Wait Time",
